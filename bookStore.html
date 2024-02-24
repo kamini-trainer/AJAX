@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Synchronous vs Asynchronous Ajax Request</title>
+<style>
+  .box {
+    width: 100px;
+    height: 100px;
+    background-color: lightblue;
+    margin-bottom: 10px;
+  }
+</style>
+<script>
+function synchronousRequest() {
+    var box = document.getElementById('sync-box');
+    box.style.backgroundColor = 'orange'; // Change color to indicate loading
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts/1', false); // Synchronous request
+    xhr.send();
+    xhr.onreadystatechange = function() {
+        box.style.backgroundColor = 'blue';
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            
+            if (xhr.status === 200) {
+                box.style.backgroundColor = 'green'; // Change color to indicate success
+            } else {
+                box.style.backgroundColor = 'red'; // Change color to indicate failure
+            }
+        }
+    };
+    if (xhr.status === 200) {
+        box.style.backgroundColor = 'green'; // Change color to indicate success
+    } else {
+        box.style.backgroundColor = 'red'; // Change color to indicate failure
+    }
+}
+
+function asynchronousRequest() {
+    var box = document.getElementById('async-box');
+    box.style.backgroundColor = 'orange'; // Change color to indicate loading
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts/1', true); // Asynchronous request
+    
+    xhr.send();
+
+    xhr.onreadystatechange = function() {
+        box.style.backgroundColor = 'blue';
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            
+            if (xhr.status === 200) {
+                box.style.backgroundColor = 'green'; // Change color to indicate success
+            } else {
+                box.style.backgroundColor = 'red'; // Change color to indicate failure
+            }
+        }
+    };
+}
+</script>
+</head>
+<body>
+<h2>Synchronous vs Asynchronous Ajax Request</h2>
+<div class="box" id="sync-box">Synchronous Request</div>
+<div class="box" id="async-box">Asynchronous Request</div>
+<button onclick="synchronousRequest()">Make Synchronous Request</button>
+<button onclick="asynchronousRequest()">Make Asynchronous Request</button>
+</body>
+</html>
